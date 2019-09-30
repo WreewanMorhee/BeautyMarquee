@@ -1,10 +1,10 @@
 'use strict';
 
-const BeautyMarquee = require('./BeautyMarquee/BeautyMarquee')
+const { init } = require('./BeautyMarquee/BeautyMarquee')
 module.exports = {
-  BeautyMarquee
+  init
 }
-
+// exports["default"] = init
 
 // "use strict";
 //

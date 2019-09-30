@@ -4,10 +4,12 @@ const BeautyMarquee = ({
   html_content,
   vertical = false,
   reverse = false,
-  gap = undefined,
   stop_on_box_hover = false,
-  stop_on_content_hover = false
+  stop_on_content_hover = false,
+  turn_on = true
 }) => {
+  if (!turn_on) return <>{html_content}</>
+
   const [box_size, set_box_size] = useState(0)
   const [item_size, set_item_size] = useState(0)
   const UlRef = useRef(null)
@@ -50,14 +52,13 @@ const BeautyMarquee = ({
         onMouseOver={hoverToToggle(MarqueeController, true, stop_on_box_hover)}
         onMouseLeave={hoverToToggle(MarqueeController, false, stop_on_box_hover)}
       >
-        <MarqueeList className="beauty-marquee-list" ref={UlRef}>
+        <MarqueeList vertical={vertical} className="beauty-marquee-list" ref={UlRef}>
           {Array(2)
             .fill()
             .map((_, index) => (
               <MarqueeItem
-                gap={get_gap(gap, item_size, box_size, windowWidth)}
                 vertical={vertical}
-                min_size={box_size}
+                item_size={item_size}
                 className="beauty-marquee-item"
                 key={`index-${index + 1}`}
                 ref={LiRef}
@@ -73,9 +74,8 @@ const BeautyMarquee = ({
                     false,
                     stop_on_content_hover
                   )}
-                >
-                  <Markup tagName='fragment' content={`${html_content}`} />
-                </MarqueeText>
+                  dangerouslySetInnerHTML={{__html: html_content}}
+                />
               </MarqueeItem>
             ))}
         </MarqueeList>
@@ -97,7 +97,7 @@ const get_duration = ({
 
 const set_ref_size = (vertical, BoxRef, LiRef, set_box_size, set_item_size) => {
   const _box_size = vertical ? BoxRef.current.clientHeight : BoxRef.current.clientWidth
-  const _item_size = vertical ? LiRef.current.clientHeight :  LiRef.current.clientWidth
+  const _item_size = vertical ? LiRef.current.clientHeight : LiRef.current.clientWidth
 
   set_box_size(_box_size)
 
@@ -106,7 +106,7 @@ const set_ref_size = (vertical, BoxRef, LiRef, set_box_size, set_item_size) => {
   }
 }
 
-const run_marquee = (MarqueeController, reverse, UlRef, vertical, item_size, duration) => {
+const run_marquee = (MarqueeController, reverse, UlRef, vertical, item_size,  duration) => {
   const direction = reverse ? -1 : 1
   MarqueeController.to(UlRef.current, 0, {
     x: 0,
@@ -135,11 +135,13 @@ const hoverToToggle = (MarqueeController, hover, stopWhenHover) => () => {
 }
 
 
-export const beauty_marquee_init = ({className, ...props}) => {
-  Array.from(document.getElementsByClassName(className)).forEach((element) => {
+
+
+ export const init = ({class_name, ...props}) => {
+  Array.from(document.getElementsByClassName(class_name)).forEach((element) => {
     const html_content = element.innerHTML
     ReactDOM.render(
-      <MarqueeEffect {...props} html_content={html_content} />,
+      <BeautyMarquee {...props} html_content={html_content.trim()} />,
       element
     )
   })
@@ -151,6 +153,7 @@ export const beauty_marquee_init = ({className, ...props}) => {
 
 
 import React, { Component, useState, useRef, useEffect, useContext } from 'react'
+import ReactDOM from 'react-dom'
 import { Power0, TimelineMax } from 'gsap'
 import { Markup } from 'interweave'
 import { useWindowSize } from './WindowSizeContext'
