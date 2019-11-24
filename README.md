@@ -1,85 +1,58 @@
-## React Beauty Marquee
-React Beauty Marquee is a plugin for whom want to use marquee.
-You can
-use it to beautify your web
-or
-use is to show some message repeatly
+## Beauty Marquee
+Beauty Marquee is a plugin for whom want to use marquee.                         
+You can                                          
+use it to beautify your web                            
+or                          
+use is to show some message repeatly                          
 [DEMO](https://event.hearst.com.tw/uiuxstoredemo/beautymarquee/)
 
 
 ## How to install
 1. go to your terminal and type the following:
 ```bash
-yarn add react-beauty-marquee
+yarn add beauty-marquee
 ```
 
 ## How to use:
-```js
-import BeautyMarquee from 'react-beauty-marquee'
+```html
+<div class='beauty-marquee'>  // draw the region of marquee in this div, main on width and height
+	<div class='outer-box'>  // give marquee css in this div
+	   /* marquee content */
+	 </div>
+ </div>
 
-const DemoComp = () => (
-  <div className='react-beauty-marquee'>  //  STEP1. draw the region of marquee and adjust its position in this div
-    <BeautyMarquee 
-      stop_on_box_hover
-      desktop_speed={200} 
-      mobile_speed={100}
-    >  //  STEP3. once you have your marquee content CSS done, add the BeautyMarquee component to trigger it !
-      <div className='outer-box'>  //   STEP2. adjust the content of marquee with your own CSS in this div and add content into it
-        /*  the content you want to marquee */
-      </div>
-    </BeautyMarquee >
-  </div>
-)
+<script src='node_modules/beauty-marquee/dist/BeautyMarquee.js'></script>
+<script type='text/javascript'>
+    BeautyMarquee.init({
+      // the parameter below are all given default value except required value
+
+
+      // Common Parameter
+      class_name: '.beauty-marquee',  // (REQUIRED) the class want to use beauty-marquee  
+      desktop_speed: 200,  // the moving speed of marquee in desktop
+      mobile_speed: 150,  // the moving speed of marquee in mobile
+      vertical: false,  // if true, marquee will move vertically
+
+      // Advanced Parameter
+      reverse: false,  // if your want marquee move reversely
+      turn_on: true,  // if you don't want to trigger marquee, turn_on should be false
+      stop_on_box_hover: false,  // if true, marquee will stop when hover marquee region
+      stop_on_content_hover: false,  // if true, marquee will stop when hover marquee content
+    })
+</script>
 ```
 
-## Props                  
-### desktop_speed         
-type: number    
-default: 200    
-usage: marquee speed in desktop (window.innerWidth > 768)
+## PS
 
-
-
-### mobile_speed               
-type: number        
-default: 100      
-usage: marquee speed in mobile(window.innerWidth <= 768)
-
-
-
-### vertical
-type: boolean      
-default: false     
-usage: if true, change marquee to vertical
-
-
-
-### reverse
-type: boolean    
-default: false    
-usage: if horizontal, marque move from left to right, reverse will from right to left        
-if vertical, marquee move from top to bottom, reverse will from bottom to top
-
-
-
-### stop_on_box_hover
-type: boolean       
-default: false      
-usage: if true, marquee will stop when user hover marquee region
-
-
-
-### stop_on_content_hover
-type: boolean      
-default: false       
-usage: if true, marquee will stop when user hover marquee content
-
-
-
-### turn_on
-type: boolean      
-default: true      
-usage: if true, will run marquee, otherwise, won't trigger marquee
+If you want to have distance between each marquee item,            
+give padding for outer box
+```html
+<div class='beauty-marquee'>
+	<div class='outer-box'>  // this one
+	   /* marquee content */
+	 </div>
+ </div>
+````
 
 ## Thank You for Your Use
 It's welcome to report me any issue or bug, thanks a lot!
