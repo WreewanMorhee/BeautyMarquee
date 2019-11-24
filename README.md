@@ -1,2 +1,0 @@
-# BeautyMarquee
-beauty marquee
